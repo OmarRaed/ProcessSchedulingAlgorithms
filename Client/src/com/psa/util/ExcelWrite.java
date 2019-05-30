@@ -40,7 +40,7 @@ public class ExcelWrite {
             HSSFRow processRow = sheet.createRow(rowNum); //create new row
             rowNum++;
 
-            Process process = new Process();
+            Process process = outputProcesses.poll();
 
             processRow.createCell(0).setCellValue(process.getProcessName());
             processRow.createCell(1).setCellValue(process.getStartTime());

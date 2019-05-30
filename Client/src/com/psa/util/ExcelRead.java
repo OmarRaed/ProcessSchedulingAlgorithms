@@ -34,7 +34,7 @@ public class ExcelRead {
             HSSFSheet Sheet1 = wb.getSheetAt(0);
 
             //Create a loop to set cells values in every row in
-            for (int i = 1; i < Sheet1.getLastRowNum(); i++) {
+            for (int i = 1; i <= Sheet1.getLastRowNum(); i++) {
 
                 //create object from process
                 Process process = new Process();
@@ -53,6 +53,8 @@ public class ExcelRead {
                 process.setBurstTime((int) Sheet1.getRow(i)
                                                  .getCell(2)
                                                  .getNumericCellValue());
+                //set remaining time equals to burst time
+                process.setRemainingTime(process.getBurstTime());
 
                 //set process deadline
                 process.setDeadline((int) Sheet1.getRow(i)
@@ -65,6 +67,8 @@ public class ExcelRead {
 
         } catch (IOException e) {
         }
+
+        return processes;
     }
 
 }
