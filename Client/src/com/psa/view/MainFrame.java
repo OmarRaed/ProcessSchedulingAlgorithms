@@ -71,19 +71,38 @@ public class MainFrame extends javax.swing.JFrame {
         outputTable = new javax.swing.JTable();
         algorithmComboBox = new javax.swing.JComboBox<>();
         runAlgorithmButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         quantumTestField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         chooseExcelButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         inputTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        algorithmTitleLabel = new javax.swing.JLabel();
+        waitingTimePannel = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        averageWaitingTimeLabel = new javax.swing.JLabel();
+        responesTimePanel = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        averageResponseTimeLabel = new javax.swing.JLabel();
+        turnAroundTimePanel = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        averageTurnAroundTimeLabel = new javax.swing.JLabel();
+        cpuUtilizationPanel = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        cpuUtilizationLabel = new javax.swing.JLabel();
+        throughputPanel = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        throughputLabel = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         frameTitleLabel.setFont(new java.awt.Font("Acme", 0, 24)); // NOI18N
         frameTitleLabel.setText("Task Scheduling Application (GROUP 3)");
-        getContentPane().add(frameTitleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, -1, 32));
+        getContentPane().add(frameTitleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, 32));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -164,14 +183,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 410, 540));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Input"));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Input"));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         quantumTestField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel2.add(quantumTestField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 100, 25));
+        jPanel3.add(quantumTestField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 100, 25));
 
-        jLabel2.setText("Quantum");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jLabel3.setText("Quantum");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         chooseExcelButton.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         chooseExcelButton.setText("Choose Excel File");
@@ -180,7 +199,7 @@ public class MainFrame extends javax.swing.JFrame {
                 chooseExcelButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(chooseExcelButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 150, 25));
+        jPanel3.add(chooseExcelButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 150, 25));
 
         inputTable.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         inputTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -221,18 +240,187 @@ public class MainFrame extends javax.swing.JFrame {
         inputTable.setMaximumSize(new java.awt.Dimension(240, 64));
         inputTable.setPreferredSize(new java.awt.Dimension(300, 500));
         inputTable.setRowHeight(25);
-        jScrollPane2.setViewportView(inputTable);
+        jScrollPane3.setViewportView(inputTable);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 370, 440));
+        jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 370, 440));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 390, 540));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 390, 540));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Calculations"));
+        jPanel2.setLayout(new java.awt.GridLayout(7, 0));
+
+        algorithmTitleLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        algorithmTitleLabel.setText("Algorithm Title");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(122, Short.MAX_VALUE)
+                .addComponent(algorithmTitleLabel)
+                .addGap(120, 120, 120))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(algorithmTitleLabel)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(jPanel4);
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        jLabel4.setText("Average Waiting Time :");
+
+        averageWaitingTimeLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        averageWaitingTimeLabel.setText("0");
+
+        javax.swing.GroupLayout waitingTimePannelLayout = new javax.swing.GroupLayout(waitingTimePannel);
+        waitingTimePannel.setLayout(waitingTimePannelLayout);
+        waitingTimePannelLayout.setHorizontalGroup(
+            waitingTimePannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(waitingTimePannelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addComponent(averageWaitingTimeLabel)
+                .addGap(32, 32, 32))
+        );
+        waitingTimePannelLayout.setVerticalGroup(
+            waitingTimePannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(waitingTimePannelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(waitingTimePannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(averageWaitingTimeLabel)
+                    .addComponent(jLabel4))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(waitingTimePannel);
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        jLabel5.setText("Average Response Time :");
+
+        averageResponseTimeLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        averageResponseTimeLabel.setText("0");
+
+        javax.swing.GroupLayout responesTimePanelLayout = new javax.swing.GroupLayout(responesTimePanel);
+        responesTimePanel.setLayout(responesTimePanelLayout);
+        responesTimePanelLayout.setHorizontalGroup(
+            responesTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(responesTimePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(averageResponseTimeLabel)
+                .addGap(31, 31, 31))
+        );
+        responesTimePanelLayout.setVerticalGroup(
+            responesTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(responesTimePanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(responesTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(averageResponseTimeLabel)
+                    .addComponent(jLabel5))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(responesTimePanel);
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        jLabel6.setText("Average Turn Around Time :");
+
+        averageTurnAroundTimeLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        averageTurnAroundTimeLabel.setText("0");
+
+        javax.swing.GroupLayout turnAroundTimePanelLayout = new javax.swing.GroupLayout(turnAroundTimePanel);
+        turnAroundTimePanel.setLayout(turnAroundTimePanelLayout);
+        turnAroundTimePanelLayout.setHorizontalGroup(
+            turnAroundTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(turnAroundTimePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(averageTurnAroundTimeLabel)
+                .addGap(31, 31, 31))
+        );
+        turnAroundTimePanelLayout.setVerticalGroup(
+            turnAroundTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(turnAroundTimePanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(turnAroundTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(averageTurnAroundTimeLabel)
+                    .addComponent(jLabel6))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(turnAroundTimePanel);
+
+        jLabel7.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        jLabel7.setText("CPU Utilization :");
+
+        cpuUtilizationLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        cpuUtilizationLabel.setText("0");
+
+        javax.swing.GroupLayout cpuUtilizationPanelLayout = new javax.swing.GroupLayout(cpuUtilizationPanel);
+        cpuUtilizationPanel.setLayout(cpuUtilizationPanelLayout);
+        cpuUtilizationPanelLayout.setHorizontalGroup(
+            cpuUtilizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cpuUtilizationPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
+                .addComponent(cpuUtilizationLabel)
+                .addGap(30, 30, 30))
+        );
+        cpuUtilizationPanelLayout.setVerticalGroup(
+            cpuUtilizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cpuUtilizationPanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(cpuUtilizationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cpuUtilizationLabel)
+                    .addComponent(jLabel7))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(cpuUtilizationPanel);
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        jLabel8.setText("Throughput");
+
+        throughputLabel.setFont(new java.awt.Font("SansSerif", 0, 22)); // NOI18N
+        throughputLabel.setText("0");
+
+        javax.swing.GroupLayout throughputPanelLayout = new javax.swing.GroupLayout(throughputPanel);
+        throughputPanel.setLayout(throughputPanelLayout);
+        throughputPanelLayout.setHorizontalGroup(
+            throughputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(throughputPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addComponent(throughputLabel)
+                .addGap(29, 29, 29))
+        );
+        throughputPanelLayout.setVerticalGroup(
+            throughputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(throughputPanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(throughputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(throughputLabel)
+                    .addComponent(jLabel8))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(throughputPanel);
+        jPanel2.add(jPanel5);
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 50, 390, 540));
 
         pack();
     }//GEN-END:initComponents
-
-    private void chooseExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseExcelButtonActionPerformed
-        onChooseExcelButtonClick();
-    }//GEN-LAST:event_chooseExcelButtonActionPerformed
 
     private void runAlgorithmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAlgorithmButtonActionPerformed
         onRunAlgorithmButtonClick();
@@ -246,22 +434,45 @@ public class MainFrame extends javax.swing.JFrame {
         clearOutputTable();
     }//GEN-LAST:event_algorithmComboBoxItemStateChanged
 
+    private void chooseExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseExcelButtonActionPerformed
+        onChooseExcelButtonClick();
+    }//GEN-LAST:event_chooseExcelButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algorithmComboBox;
+    private javax.swing.JLabel algorithmTitleLabel;
+    private javax.swing.JLabel averageResponseTimeLabel;
+    private javax.swing.JLabel averageTurnAroundTimeLabel;
+    private javax.swing.JLabel averageWaitingTimeLabel;
     private javax.swing.JButton chooseExcelButton;
+    private javax.swing.JLabel cpuUtilizationLabel;
+    private javax.swing.JPanel cpuUtilizationPanel;
     private javax.swing.JButton exportButton;
     private javax.swing.JLabel frameTitleLabel;
     private javax.swing.JTable inputTable;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable outputTable;
     private javax.swing.JTextField quantumTestField;
+    private javax.swing.JPanel responesTimePanel;
     private javax.swing.JButton runAlgorithmButton;
+    private javax.swing.JLabel throughputLabel;
+    private javax.swing.JPanel throughputPanel;
+    private javax.swing.JPanel turnAroundTimePanel;
+    private javax.swing.JPanel waitingTimePannel;
     // End of variables declaration//GEN-END:variables
 
     //-------------------------------Input methods--------------------------------------------
@@ -369,6 +580,8 @@ public class MainFrame extends javax.swing.JFrame {
             roundRobin(inputProcesses, quantum);
 
         }
+        
+        setCalculations() ;
 
     }
 
@@ -385,17 +598,6 @@ public class MainFrame extends javax.swing.JFrame {
         outputQueue = outputQueuee ;
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "Round Robin";
-
-        //convert queue to list and pass it to the table
-        List<Process> outputProcess = new ArrayList<>(outputQueue);
-        setOutputTableModel(outputProcess);
-        
-        ProcessorCalculations PC = new ProcessorCalculations() ;
-        System.out.println("AWT : " + PC.averageWaitingTime(outputProcess));
-        System.out.println("ART : " + PC.averageResponseTime(outputProcess));
-        System.out.println("ATAT : " + PC.averageTurnAroundTime(outputProcess));
-        System.out.println("CPU UTILIZATION : " + PC.cpuUtilization(outputProcess));
-        System.out.println("THROUPHPUT : " + PC.Throughput(outputProcess));
 
     }
 
@@ -453,6 +655,35 @@ public class MainFrame extends javax.swing.JFrame {
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
         setOutputTableModel(outputProcess);
+
+    }
+    
+    private void setCalculations(){
+
+        //convert queue to list and pass it to the table
+        List<Process> outputProcess = new ArrayList<>(outputQueue);
+        setOutputTableModel(outputProcess);
+        
+        algorithmTitleLabel.setText(currentAlgorithmTitle);
+        
+        //create a ProcessorCalculations class for the calculations
+        ProcessorCalculations PC = new ProcessorCalculations() ;
+        
+        float averageWaitingTime = PC.averageWaitingTime(outputProcess) ;
+        averageWaitingTimeLabel.setText(String.valueOf(averageWaitingTime)) ;
+        
+        float averageResponseTime = PC.averageResponseTime(outputProcess) ;
+        averageResponseTimeLabel.setText(String.valueOf(averageResponseTime)) ;
+        
+        float averageTurnAroundTime = PC.averageTurnAroundTime(outputProcess) ;
+        averageTurnAroundTimeLabel.setText(String.valueOf(averageTurnAroundTime)) ;
+        
+        float cpuUtilization = PC.cpuUtilization(outputProcess) ;
+        cpuUtilizationLabel.setText(String.valueOf(cpuUtilization) + "%") ;
+        
+        float throughput = PC.Throughput(outputProcess) ;
+        throughputLabel.setText(String.valueOf(throughput)) ;
+        
 
     }
     
