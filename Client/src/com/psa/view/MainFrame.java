@@ -3,6 +3,7 @@ package com.psa.view;
 import com.psa.algorithms.FirstComeFirstServed;
 import com.psa.algorithms.RoundRobin;
 import com.psa.algorithms.ShortestJobFirst;
+import com.psa.algorithms.ShortestRemainingTimeFirst;
 import com.psa.model.Process;
 
 import com.psa.util.ExcelRead;
@@ -338,6 +339,14 @@ public class MainFrame extends javax.swing.JFrame {
             shortestJobFirst(inputProcesses);
 
 
+        }else if (algorithmComboBoxIndex == 3) {
+            
+            //if user choosed shortest job first algorithm
+
+            //run algorithm
+            shortestRemainingTimeFirst(inputProcesses);
+
+
         } else if (algorithmComboBoxIndex == 4) {
             
             //if user choosed round robin algorithm
@@ -412,6 +421,25 @@ public class MainFrame extends javax.swing.JFrame {
         outputQueue = SJF.runAlgorithm(inputProcesses);
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "Shortest Job First";
+
+        //convert queue to list and pass it to the table
+        List<Process> outputProcess = new ArrayList<>(outputQueue);
+        setOutputTableModel(outputProcess);
+
+    }
+
+    private void shortestRemainingTimeFirst(List<Process> inputProcesses) {
+
+        //clear output queue and table
+        clearOutputTable();
+        outputQueue.clear();
+
+        //create round robin algorithm object
+        ShortestRemainingTimeFirst SRTF = new ShortestRemainingTimeFirst();
+        //run algorithm and store result in a queue
+        outputQueue = SRTF.runAlgorithm(inputProcesses);
+        //set current algorithm title variable to round robin
+        currentAlgorithmTitle = "Shortest Remaining Time First";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
