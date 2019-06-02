@@ -2,6 +2,7 @@ package com.psa.view;
 
 import com.psa.algorithms.FirstComeFirstServed;
 import com.psa.algorithms.RoundRobin;
+import com.psa.algorithms.ShortestJobFirst;
 import com.psa.model.Process;
 
 import com.psa.util.ExcelRead;
@@ -329,6 +330,14 @@ public class MainFrame extends javax.swing.JFrame {
             firstComeFirstServed(inputProcesses);
 
 
+        }else if (algorithmComboBoxIndex == 2) {
+            
+            //if user choosed shortest job first algorithm
+
+            //run algorithm
+            shortestJobFirst(inputProcesses);
+
+
         } else if (algorithmComboBoxIndex == 4) {
             
             //if user choosed round robin algorithm
@@ -384,6 +393,25 @@ public class MainFrame extends javax.swing.JFrame {
         outputQueue = FCFS.runAlgorithm(inputProcesses);
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "First Come First Served";
+
+        //convert queue to list and pass it to the table
+        List<Process> outputProcess = new ArrayList<>(outputQueue);
+        setOutputTableModel(outputProcess);
+
+    }
+
+    private void shortestJobFirst(List<Process> inputProcesses) {
+
+        //clear output queue and table
+        clearOutputTable();
+        outputQueue.clear();
+
+        //create round robin algorithm object
+        ShortestJobFirst SJF = new ShortestJobFirst();
+        //run algorithm and store result in a queue
+        outputQueue = SJF.runAlgorithm(inputProcesses);
+        //set current algorithm title variable to round robin
+        currentAlgorithmTitle = "Shortest Job First";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
