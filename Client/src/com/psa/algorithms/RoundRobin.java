@@ -15,15 +15,22 @@ public class RoundRobin {
         //initialize empty process queue
         Queue<Process> processesQueue = new LinkedList<>();
         Queue<Process> readyQueue = new LinkedList<>();
+        
+        //get a copy of the list
+        List<Process> unarrivedProcesses = new ArrayList<>(processes);
 
         //sort processes by arrival time
-        Collections.sort(processes);
-
+        Collections.sort(unarrivedProcesses);
+        
+        //set the remaining time for each process equals the burst time
+        for(Process p : unarrivedProcesses)
+            p.setRemainingTime(p.getBurstTime());
+        
         //initialize currentTime
         int currentTime = 0;
 
         //loop until all process finishes
-        while (processes.size() != 0 || !readyQueue.isEmpty()) {
+        while (unarrivedProcesses.size() != 0 || !readyQueue.isEmpty()) {
 
             //if ready queue is not empty
             if (!readyQueue.isEmpty()) {
@@ -50,7 +57,7 @@ public class RoundRobin {
                     processesQueue.add(finishedProcess);
 
                     //check if any process arrived while this process was running
-                    moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, processes, currentTime);
+                    moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, unarrivedProcesses, currentTime);
 
                 } else {
 
@@ -70,7 +77,7 @@ public class RoundRobin {
                     process.setRemainingTime(process.getRemainingTime() - q);
 
                     //check if any process arrived while this process was running
-                    moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, processes, currentTime);
+                    moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, unarrivedProcesses, currentTime);
 
                     //add the process to the tail of the ready queue
                     readyQueue.add(process);
@@ -83,10 +90,10 @@ public class RoundRobin {
 
             if (currentTime != 0 && readyQueue.isEmpty()) {
 
-                if (processes.size() == 0)
+                if (unarrivedProcesses.size() == 0)
                     continue;
 
-                int nextProcessArrivalTime = getNextArrivedProcess(processes);
+                int nextProcessArrivalTime = getNextArrivedProcess(unarrivedProcesses);
 
                 if (nextProcessArrivalTime != currentTime) {
 
@@ -109,7 +116,7 @@ public class RoundRobin {
             }
 
             //check if any process arrived while this process was running
-            moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, processes, currentTime);
+            moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, unarrivedProcesses, currentTime);
 
         }
 
