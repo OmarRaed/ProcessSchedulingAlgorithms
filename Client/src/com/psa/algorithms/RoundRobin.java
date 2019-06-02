@@ -13,7 +13,7 @@ public class RoundRobin {
     public Queue<Process> runAlgorithm(List<Process> processes, int q) {
 
         //initialize empty process queue
-        Queue<Process> processesQueue = new LinkedList<>();
+        Queue<Process> outputQueue = new LinkedList<>();
         Queue<Process> readyQueue = new LinkedList<>();
         
         //get a copy of the list
@@ -53,8 +53,8 @@ public class RoundRobin {
                     finishedProcess.setBurstTime(currentTime - finishedProcess.getStartTime());
                     finishedProcess.setRemainingTime(0);
 
-                    //add the process to the tail of the process queue
-                    processesQueue.add(finishedProcess);
+                    //add the process to the tail of the output processes queue
+                    outputQueue.add(finishedProcess);
 
                     //check if any process arrived while this process was running
                     moveToReadyQueueLessThanOrEqualArrivalTime(readyQueue, unarrivedProcesses, currentTime);
@@ -82,8 +82,8 @@ public class RoundRobin {
                     //add the process to the tail of the ready queue
                     readyQueue.add(process);
 
-                    //add the process to the tail of the process queue
-                    processesQueue.add(finishedProcess);
+                    //add the process to the tail of the output processes queue
+                    outputQueue.add(finishedProcess);
                 }
 
             }
@@ -107,8 +107,8 @@ public class RoundRobin {
                     idleProcess.setDeadline(99999);
                     idleProcess.setRemainingTime(0);
 
-                    //add idle Process to the ready queue
-                    processesQueue.add(idleProcess);
+                    //add idle Process to the output processes queue
+                    outputQueue.add(idleProcess);
 
                     //if not first round and ready queue is empty just increase current time by 1
                     currentTime = nextProcessArrivalTime;
@@ -120,7 +120,8 @@ public class RoundRobin {
 
         }
 
-        return processesQueue;
+        //return the output queue
+        return outputQueue;
 
     }
 
