@@ -10,6 +10,8 @@ import com.psa.util.ExcelRead;
 
 import com.psa.util.ExcelWrite;
 
+import com.psa.util.ProcessorCalculations;
+
 import java.awt.Dimension;
 
 import java.io.File;
@@ -387,6 +389,13 @@ public class MainFrame extends javax.swing.JFrame {
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
         setOutputTableModel(outputProcess);
+        
+        ProcessorCalculations PC = new ProcessorCalculations() ;
+        System.out.println("AWT : " + PC.averageWaitingTime(outputProcess));
+        System.out.println("ART : " + PC.averageResponseTime(outputProcess));
+        System.out.println("ATAT : " + PC.averageTurnAroundTime(outputProcess));
+        System.out.println("CPU UTILIZATION : " + PC.cpuUtilization(outputProcess));
+        System.out.println("THROUPHPUT : " + PC.Throughput(outputProcess));
 
     }
 
