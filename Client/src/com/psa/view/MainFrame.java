@@ -648,6 +648,26 @@ public class MainFrame extends javax.swing.JFrame {
         setOutputTableModel(outputProcess);
 
     }
+    
+    private void deadline(List<Process> inputProcesses) {
+
+        //clear output queue and table
+        clearOutputTable();
+        outputQueue.clear();
+
+        //create deadLine algorithm object
+        DeadLine dl = new DeadLine();
+        //run algorithm and store result in a queue
+        outputQueue = dl.runAlgorithm(inputProcesses);
+        //set current algorithm title variable to round robin
+        currentAlgorithmTitle = "DeadLine";
+
+        //convert queue to list and pass it to the table
+        List<Process> outputProcess = new ArrayList<>(outputQueue);
+        setOutputTableModel(outputProcess);
+
+    }
+
 
     private void shortestRemainingTimeFirst(List<Process> inputProcesses) {
 
@@ -661,25 +681,6 @@ public class MainFrame extends javax.swing.JFrame {
         outputQueue = SRTF.runAlgorithm(inputProcesses);
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "Shortest Remaining Time First";
-
-        //convert queue to list and pass it to the table
-        List<Process> outputProcess = new ArrayList<>(outputQueue);
-        setOutputTableModel(outputProcess);
-
-    }
-
-    private void deadline(List<Process> inputProcesses) {
-
-        //clear output queue and table
-        clearOutputTable();
-        outputQueue.clear();
-
-        //create round robin algorithm object
-        DeadLine dl = new DeadLine();
-        //run algorithm and store result in a queue
-        outputQueue = dl.runAlgorithm(inputProcesses);
-        //set current algorithm title variable to round robin
-        currentAlgorithmTitle = "DeadLine";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);

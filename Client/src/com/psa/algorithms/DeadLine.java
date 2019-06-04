@@ -40,39 +40,39 @@ public class DeadLine {
             if (!readyList.isEmpty()) {
 
                 //create a new process and initialize it with maximum burst number
-                Process shortestProcess = new Process();
-                shortestProcess.setBurstTime(MAX_INT_VALUE);
+                Process earliestProcess = new Process(); // abdo change
+                earliestProcess.setDeadline(MAX_INT_VALUE); // abdo change
 
                 //initialize shortestIndex variable with 0
-                int shortestIndex = 0;
+                int earliestIndex = 0; // abdo change
 
-                //loop for all processes in the ready list to find the list with minimum burst time
+                //loop for all processes in the ready list to find the list with minimum deadline time
                 for (int i = 0; i < readyList.size(); i++) {
 
                     //if this process has less burst time then choose it as the shortest process
-                    if (readyList.get(i).getBurstTime() < shortestProcess.getBurstTime()) {
+                    if (readyList.get(i).getDeadline() < earliestProcess.getDeadline()) { // abdo change
                         //set the shortest process equals this process
-                        shortestProcess = readyList.get(i);
+                        earliestProcess = readyList.get(i);
 
                         //set the shortest process index equals i
-                        shortestIndex = i;
+                        earliestIndex = i;
                     }
                 }
 
                 //set shortest process start time with current time
-                shortestProcess.setStartTime(currentTime);
+                earliestProcess.setStartTime(currentTime);
 
                 //increase current time by shortest process vurst time
-                currentTime += shortestProcess.getBurstTime();
+                currentTime += earliestProcess.getBurstTime();
 
                 //set shortest process end time with current time
-                shortestProcess.setEndTime(currentTime);
+                earliestProcess.setEndTime(currentTime);
 
                 //then add shortest process to theoutput queue
-                outputQueue.add(shortestProcess);
+                outputQueue.add(earliestProcess);
 
                 //and remove shortest process from the ready list
-                readyList.remove(shortestIndex);
+                readyList.remove(earliestIndex);
 
             } else if (currentTime != 0) {
 
