@@ -1,5 +1,6 @@
 package com.psa.view;
 
+import com.psa.algorithms.DeadLine;
 import com.psa.algorithms.FirstComeFirstServed;
 import com.psa.algorithms.RoundRobin;
 import com.psa.algorithms.ShortestJobFirst;
@@ -45,10 +46,10 @@ public class MainFrame extends javax.swing.JFrame {
     /** Creates new form MainFrame */
     public MainFrame() {
         initComponents();
-        
+
         //set frame title
         setTitle("Task Scheduling Application");
-        
+
         //clear input and output tables
         clearOutputTable();
         clearInputTable();
@@ -519,7 +520,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     }
-    
+
     //-------------------------------Algorithms methods--------------------------------------------
 
     private void onRunAlgorithmButtonClick() {
@@ -536,24 +537,25 @@ public class MainFrame extends javax.swing.JFrame {
 
 
 
-        }else if (algorithmComboBoxIndex == 1) {
-            
+
+        } else if (algorithmComboBoxIndex == 1) {
+
             //if user choosed first come first served algorithm
 
             //run algorithm
             firstComeFirstServed(inputProcesses);
 
 
-        }else if (algorithmComboBoxIndex == 2) {
-            
+        } else if (algorithmComboBoxIndex == 2) {
+
             //if user choosed shortest job first algorithm
 
             //run algorithm
             shortestJobFirst(inputProcesses);
 
 
-        }else if (algorithmComboBoxIndex == 3) {
-            
+        } else if (algorithmComboBoxIndex == 3) {
+
             //if user choosed shortest job first algorithm
 
             //run algorithm
@@ -561,10 +563,10 @@ public class MainFrame extends javax.swing.JFrame {
 
 
         } else if (algorithmComboBoxIndex == 4) {
-            
+
             //if user choosed round robin algorithm
             int quantum;
-            
+
             try {
                 quantum = Integer.parseInt(quantumTestField.getText());
                 if (quantum < 1) {
@@ -579,9 +581,17 @@ public class MainFrame extends javax.swing.JFrame {
             //run algorithm
             roundRobin(inputProcesses, quantum);
 
+        } else if (algorithmComboBoxIndex == 5) {
+
+            //if user choosed Deadline algorithm
+
+            //run algorithm
+            deadline(inputProcesses);
+
+
         }
-        
-        setCalculations() ;
+
+        setCalculations();
 
     }
 
@@ -595,7 +605,7 @@ public class MainFrame extends javax.swing.JFrame {
         RoundRobin RR = new RoundRobin();
         //run algorithm and store result in a queue
         Queue<Process> outputQueuee = RR.runAlgorithm(inputProcesses, quantum);
-        outputQueue = outputQueuee ;
+        outputQueue = outputQueuee;
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "Round Robin";
 
@@ -657,36 +667,55 @@ public class MainFrame extends javax.swing.JFrame {
         setOutputTableModel(outputProcess);
 
     }
-    
-    private void setCalculations(){
+
+    private void deadline(List<Process> inputProcesses) {
+
+        //clear output queue and table
+        clearOutputTable();
+        outputQueue.clear();
+
+        //create round robin algorithm object
+        DeadLine dl = new DeadLine();
+        //run algorithm and store result in a queue
+        outputQueue = dl.runAlgorithm(inputProcesses);
+        //set current algorithm title variable to round robin
+        currentAlgorithmTitle = "DeadLine";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
         setOutputTableModel(outputProcess);
-        
-        algorithmTitleLabel.setText(currentAlgorithmTitle);
-        
-        //create a ProcessorCalculations class for the calculations
-        ProcessorCalculations PC = new ProcessorCalculations() ;
-        
-        float averageWaitingTime = PC.averageWaitingTime(outputProcess) ;
-        averageWaitingTimeLabel.setText(String.valueOf(averageWaitingTime)) ;
-        
-        float averageResponseTime = PC.averageResponseTime(outputProcess) ;
-        averageResponseTimeLabel.setText(String.valueOf(averageResponseTime)) ;
-        
-        float averageTurnAroundTime = PC.averageTurnAroundTime(outputProcess) ;
-        averageTurnAroundTimeLabel.setText(String.valueOf(averageTurnAroundTime)) ;
-        
-        float cpuUtilization = PC.cpuUtilization(outputProcess) ;
-        cpuUtilizationLabel.setText(String.valueOf(cpuUtilization) + "%") ;
-        
-        float throughput = PC.Throughput(outputProcess) ;
-        throughputLabel.setText(String.valueOf(throughput)) ;
-        
 
     }
-    
+
+    private void setCalculations() {
+
+        //convert queue to list and pass it to the table
+        List<Process> outputProcess = new ArrayList<>(outputQueue);
+        setOutputTableModel(outputProcess);
+
+        algorithmTitleLabel.setText(currentAlgorithmTitle);
+
+        //create a ProcessorCalculations class for the calculations
+        ProcessorCalculations PC = new ProcessorCalculations();
+
+        float averageWaitingTime = PC.averageWaitingTime(outputProcess);
+        averageWaitingTimeLabel.setText(String.valueOf(averageWaitingTime));
+
+        float averageResponseTime = PC.averageResponseTime(outputProcess);
+        averageResponseTimeLabel.setText(String.valueOf(averageResponseTime));
+
+        float averageTurnAroundTime = PC.averageTurnAroundTime(outputProcess);
+        averageTurnAroundTimeLabel.setText(String.valueOf(averageTurnAroundTime));
+
+        float cpuUtilization = PC.cpuUtilization(outputProcess);
+        cpuUtilizationLabel.setText(String.valueOf(cpuUtilization) + "%");
+
+        float throughput = PC.Throughput(outputProcess);
+        throughputLabel.setText(String.valueOf(throughput));
+
+
+    }
+
     //-------------------------------Export methods--------------------------------------------
 
     private void exportExcel() {
@@ -725,7 +754,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     //-------------------------------Tabels methods--------------------------------------------
 
     private void setInputTableModel(List<Process> processes) {
@@ -747,7 +776,7 @@ public class MainFrame extends javax.swing.JFrame {
             });
 
         //set table dimension
-        Dimension dim = new Dimension(300, outputTable.getRowCount() * 25) ;
+        Dimension dim = new Dimension(300, outputTable.getRowCount() * 25);
         inputTable.setPreferredSize(dim);
         inputTable.setFillsViewportHeight(true);
     }
@@ -765,7 +794,7 @@ public class MainFrame extends javax.swing.JFrame {
             });
 
         //set table dimension
-        Dimension dim = new Dimension(300, 0) ;
+        Dimension dim = new Dimension(300, 0);
         inputTable.setPreferredSize(dim);
         inputTable.setFillsViewportHeight(true);
     }
@@ -795,7 +824,7 @@ public class MainFrame extends javax.swing.JFrame {
             });
 
         //set table dimension
-        Dimension dim = new Dimension(300, outputTable.getRowCount() * 25) ;
+        Dimension dim = new Dimension(300, outputTable.getRowCount() * 25);
         outputTable.setPreferredSize(dim);
         outputTable.setFillsViewportHeight(true);
     }
@@ -811,9 +840,9 @@ public class MainFrame extends javax.swing.JFrame {
                     return false;
                 }
             });
-    
+
         //set table dimension
-        Dimension dim = new Dimension(300, 0) ;
+        Dimension dim = new Dimension(300, 0);
         outputTable.setPreferredSize(dim);
         outputTable.setFillsViewportHeight(true);
     }
