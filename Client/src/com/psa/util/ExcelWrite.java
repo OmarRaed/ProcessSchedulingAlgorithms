@@ -30,14 +30,20 @@ public class ExcelWrite {
         HSSFRow row = sheet.createRow(0); //create new row for algorithm name
 
         row.createCell(0).setCellValue("Policy : " + algorithmTitle);
+        setCellCellsStyleLightBlue(workbook, row.getCell(0)) ;
 
         //write columns titles
         row = sheet.createRow(1); //create new row for titles
         row.createCell(0).setCellValue("TASK");
+        setCellCellsStyleLightBlue(workbook, row.getCell(0)) ;
         row.createCell(1).setCellValue("START TIME");
+        setCellCellsStyleLightBlue(workbook, row.getCell(1)) ;
         row.createCell(2).setCellValue("END TIME");
+        setCellCellsStyleLightBlue(workbook, row.getCell(2)) ;
         row.createCell(3).setCellValue("DURATION");
+        setCellCellsStyleLightBlue(workbook, row.getCell(3)) ;
         row.createCell(4).setCellValue("STATUS");
+        setCellCellsStyleLightBlue(workbook, row.getCell(4)) ;
 
         //initialize row number
         int rowNum = 2;
@@ -55,13 +61,35 @@ public class ExcelWrite {
             processRow.createCell(1).setCellValue(process.getStartTime());
             processRow.createCell(2).setCellValue(process.getEndTime());
             processRow.createCell(3).setCellValue(process.getBurstTime());
+            setCellCellsStyleLightGreen(workbook, processRow.getCell(0)) ;
+            setCellCellsStyleLightGreen(workbook, processRow.getCell(1)) ;
+            setCellCellsStyleLightGreen(workbook, processRow.getCell(2)) ;
+            setCellCellsStyleLightGreen(workbook, processRow.getCell(3)) ;
 
             if (process.getDeadline() > process.getEndTime())
                 processRow.createCell(4).setCellValue("S");
             else
                 processRow.createCell(4).setCellValue("F");
+            
+            setCellCellsStyleLightGreen(workbook, processRow.getCell(4)) ;
 
         }
+
+        //create a ProcessorCalculations class for the calculations
+        ProcessorCalculations PC = new ProcessorCalculations();
+
+        //convert queue to list
+        List<Process> outputProcess = new ArrayList<>(processes);
+        
+        //calculate 
+        float edf_averageWaitingTime = PC.averageWaitingTime(outputProcess);
+        float edf_averageResponseTime = PC.averageResponseTime(outputProcess);
+        float edf_averageTurnAroundTime = PC.averageTurnAroundTime(outputProcess);
+        float edf_cpuUtilization = PC.cpuUtilization(outputProcess);
+        float edf_throughput = PC.Throughput(outputProcess);
+        
+        writeProcessesInfo(workbook, sheet, edf_averageWaitingTime, edf_averageResponseTime,
+                           edf_averageTurnAroundTime, edf_throughput, edf_cpuUtilization) ;
 
         //write to excel file
         FileOutputStream out = new FileOutputStream(filePath + ".xls");

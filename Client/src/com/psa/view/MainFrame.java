@@ -888,6 +888,11 @@ public class MainFrame extends javax.swing.JFrame {
     //-------------------------------Export methods--------------------------------------------
 
     private void exportExcel() {
+        
+        if(algorithmComboBox.getSelectedIndex() == 0){
+            onRunAlgorithmButtonClick() ;
+            return ;
+        }
 
         //Create JFileChooser Object
         JFileChooser fileChooser = new JFileChooser();
