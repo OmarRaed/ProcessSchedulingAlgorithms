@@ -1,6 +1,6 @@
 package com.psa.view;
 
-import com.psa.algorithms.DeadLine;
+import com.psa.algorithms.EarliesDeadlineFirst;
 import com.psa.algorithms.FirstComeFirstServed;
 import com.psa.algorithms.RoundRobin;
 import com.psa.algorithms.ShortestJobFirst;
@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 /**
  *
@@ -533,8 +537,23 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please Select Algorithm first");
 
         } else if (algorithmComboBoxIndex == 0) {
-            //if user choosed all algorithms
+            //if user choosedall algorithms
+            
+            int quantum;
 
+            try {
+                quantum = Integer.parseInt(quantumTestField.getText());
+                if (quantum < 1) {
+                    JOptionPane.showMessageDialog(null, "Please enter a positive integer for the quantum");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a numerical value for the quantum");
+                return;
+            }
+
+            //run algorithm
+            runAll(inputProcesses, quantum);
 
 
 
@@ -586,7 +605,7 @@ public class MainFrame extends javax.swing.JFrame {
             //if user choosed Deadline algorithm
 
             //run algorithm
-            deadline(inputProcesses);
+            earliestDeadlineFirst(inputProcesses);
 
 
         }
@@ -604,8 +623,7 @@ public class MainFrame extends javax.swing.JFrame {
         //create round robin algorithm object
         RoundRobin RR = new RoundRobin();
         //run algorithm and store result in a queue
-        Queue<Process> outputQueuee = RR.runAlgorithm(inputProcesses, quantum);
-        outputQueue = outputQueuee;
+        outputQueue = RR.runAlgorithm(inputProcesses, quantum);
         //set current algorithm title variable to round robin
         currentAlgorithmTitle = "Round Robin";
 
@@ -617,11 +635,11 @@ public class MainFrame extends javax.swing.JFrame {
         clearOutputTable();
         outputQueue.clear();
 
-        //create round robin algorithm object
+        //create first come first served algorithm object
         FirstComeFirstServed FCFS = new FirstComeFirstServed();
         //run algorithm and store result in a queue
         outputQueue = FCFS.runAlgorithm(inputProcesses);
-        //set current algorithm title variable to round robin
+        //set current algorithm title variable to first come first served
         currentAlgorithmTitle = "First Come First Served";
 
         //convert queue to list and pass it to the table
@@ -636,11 +654,11 @@ public class MainFrame extends javax.swing.JFrame {
         clearOutputTable();
         outputQueue.clear();
 
-        //create round robin algorithm object
+        //create shortest job first algorithm object
         ShortestJobFirst SJF = new ShortestJobFirst();
         //run algorithm and store result in a queue
         outputQueue = SJF.runAlgorithm(inputProcesses);
-        //set current algorithm title variable to round robin
+        //set current algorithm title variable to shortest job first
         currentAlgorithmTitle = "Shortest Job First";
 
         //convert queue to list and pass it to the table
@@ -649,18 +667,18 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
     
-    private void deadline(List<Process> inputProcesses) {
+    private void earliestDeadlineFirst(List<Process> inputProcesses) {
 
         //clear output queue and table
         clearOutputTable();
         outputQueue.clear();
 
-        //create deadLine algorithm object
-        DeadLine dl = new DeadLine();
+        //create earliest deadLine first algorithm object
+        EarliesDeadlineFirst edf = new EarliesDeadlineFirst();
         //run algorithm and store result in a queue
-        outputQueue = dl.runAlgorithm(inputProcesses);
-        //set current algorithm title variable to round robin
-        currentAlgorithmTitle = "DeadLine";
+        outputQueue = edf.runAlgorithm(inputProcesses);
+        //set current algorithm title variable to earlies deadline first
+        currentAlgorithmTitle = "Earliest Deadline First";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
@@ -668,24 +686,174 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-
     private void shortestRemainingTimeFirst(List<Process> inputProcesses) {
 
         //clear output queue and table
         clearOutputTable();
         outputQueue.clear();
-
-        //create round robin algorithm object
+        
+        //create Shortest Remaining Time First algorithm object
         ShortestRemainingTimeFirst SRTF = new ShortestRemainingTimeFirst();
         //run algorithm and store result in a queue
         outputQueue = SRTF.runAlgorithm(inputProcesses);
-        //set current algorithm title variable to round robin
+        //set current algorithm title variable to Shortest Remaining Time First
         currentAlgorithmTitle = "Shortest Remaining Time First";
 
         //convert queue to list and pass it to the table
         List<Process> outputProcess = new ArrayList<>(outputQueue);
         setOutputTableModel(outputProcess);
 
+    }
+    
+    private void runAll(List<Process> inputProcesses, int quantum){
+
+        HSSFWorkbook workbook = new HSSFWorkbook(); //create new workbook
+        HSSFSheet fcfs_sheet = workbook.createSheet("FCFS_Sheet"); //create new sheet
+        HSSFSheet sjf_sheet = workbook.createSheet("SJF_Sheet"); //create new sheet
+        HSSFSheet srtf_sheet = workbook.createSheet("SRTF_Sheet"); //create new sheet
+        HSSFSheet rr_sheet = workbook.createSheet("RR_Sheet"); //create new sheet
+        HSSFSheet edf_sheet = workbook.createSheet("EDF_Sheet"); //create new sheet
+        
+        //clear output queue and table
+        clearOutputTable();
+        outputQueue.clear();
+        
+        //write output excel file
+        ExcelWrite excelWrite = new ExcelWrite();
+
+        //create a ProcessorCalculations class for the calculations
+        ProcessorCalculations PC = new ProcessorCalculations();
+        
+        //----------------START--------------FIRST COME FIRST SERVED----------------------------------
+
+        //create first come first served algorithm object
+        FirstComeFirstServed FCFS = new FirstComeFirstServed();
+        //run algorithm and store result in a queue
+        Queue<Process> fcfs_queue = FCFS.runAlgorithm(inputProcesses);
+        //write fcfs sheet
+        fcfs_sheet = excelWrite.writeProcessesToSheet(workbook, fcfs_queue, "First Come First Served", fcfs_sheet);
+
+        //convert queue to list
+        List<Process> fcfs_outputProcess = new ArrayList<>(fcfs_queue);
+
+        //calculate 
+        float fcfs_averageWaitingTime = PC.averageWaitingTime(fcfs_outputProcess);
+        float fcfs_averageResponseTime = PC.averageResponseTime(fcfs_outputProcess);
+        float fcfs_averageTurnAroundTime = PC.averageTurnAroundTime(fcfs_outputProcess);
+        float fcfs_cpuUtilization = PC.cpuUtilization(fcfs_outputProcess);
+        float fcfs_throughput = PC.Throughput(fcfs_outputProcess);
+        
+        //write calculations to the sheet
+        fcfs_sheet = excelWrite.writeProcessesInfo(workbook, fcfs_sheet, fcfs_averageWaitingTime, fcfs_averageResponseTime, fcfs_averageTurnAroundTime
+                                                   ,fcfs_throughput, fcfs_cpuUtilization);
+        
+        //-----------------END---------------FIRST COME FIRST SERVED----------------------------------
+        
+        //----------------START--------------SHORTEST JOB FIRST----------------------------------
+        
+        //create shortest job first algorithm object
+        ShortestJobFirst SJF = new ShortestJobFirst();
+        //run algorithm and store result in a queue
+        Queue<Process> sjf_queue = SJF.runAlgorithm(inputProcesses);
+        //write sjf sheet
+        sjf_sheet = excelWrite.writeProcessesToSheet(workbook, sjf_queue, "Shortest Job First", sjf_sheet);
+
+        //convert queue to list
+        List<Process> sjf_outputProcess = new ArrayList<>(sjf_queue);
+
+        //calculate 
+        float sjf_averageWaitingTime = PC.averageWaitingTime(sjf_outputProcess);
+        float sjf_averageResponseTime = PC.averageResponseTime(sjf_outputProcess);
+        float sjf_averageTurnAroundTime = PC.averageTurnAroundTime(sjf_outputProcess);
+        float sjf_cpuUtilization = PC.cpuUtilization(sjf_outputProcess);
+        float sjf_throughput = PC.Throughput(sjf_outputProcess);
+        
+        //write calculations to the sheet
+        sjf_sheet = excelWrite.writeProcessesInfo(workbook, sjf_sheet, sjf_averageWaitingTime, sjf_averageResponseTime, sjf_averageTurnAroundTime
+                                                   ,sjf_throughput, sjf_cpuUtilization);
+        
+        //-----------------END---------------SHORTEST JOB FIRST----------------------------------
+        
+        //----------------START--------------SHORTEST REMAINING TIME FIRST----------------------------------
+        
+        //create Shortest Remaining Time First algorithm object
+        ShortestRemainingTimeFirst SRTF = new ShortestRemainingTimeFirst();
+        //run algorithm and store result in a queue
+        Queue<Process> srtf_queue = SRTF.runAlgorithm(inputProcesses);
+        //write fcfs sheet
+        srtf_sheet = excelWrite.writeProcessesToSheet(workbook, srtf_queue, "Shortest Remaining Time First", srtf_sheet);
+
+        //convert queue to list
+        List<Process> srtf_outputProcess = new ArrayList<>(srtf_queue);
+
+        //calculate 
+        float srtf_averageWaitingTime = PC.averageWaitingTime(srtf_outputProcess);
+        float srtf_averageResponseTime = PC.averageResponseTime(srtf_outputProcess);
+        float srtf_averageTurnAroundTime = PC.averageTurnAroundTime(srtf_outputProcess);
+        float srtf_cpuUtilization = PC.cpuUtilization(srtf_outputProcess);
+        float srtf_throughput = PC.Throughput(srtf_outputProcess);
+        
+        //write calculations to the sheet
+        srtf_sheet = excelWrite.writeProcessesInfo(workbook, srtf_sheet, srtf_averageWaitingTime, srtf_averageResponseTime, srtf_averageTurnAroundTime
+                                                   ,srtf_throughput, srtf_cpuUtilization);
+        
+        //-----------------END---------------SHORTEST REMAINING TIME FIRST----------------------------------
+        
+        //----------------START--------------ROUND ROBIN----------------------------------
+
+        //create round robin algorithm object
+        RoundRobin RR = new RoundRobin();
+        //run algorithm and store result in a queue
+        Queue<Process> rr_queue = RR.runAlgorithm(inputProcesses, quantum);
+        //write rr sheet
+        rr_sheet = excelWrite.writeProcessesToSheet(workbook, rr_queue, "Round Robin", rr_sheet);
+
+        //convert queue to list
+        List<Process> rr_outputProcess = new ArrayList<>(rr_queue);
+
+        //calculate 
+        float rr_averageWaitingTime = PC.averageWaitingTime(rr_outputProcess);
+        float rr_averageResponseTime = PC.averageResponseTime(rr_outputProcess);
+        float rr_averageTurnAroundTime = PC.averageTurnAroundTime(rr_outputProcess);
+        float rr_cpuUtilization = PC.cpuUtilization(rr_outputProcess);
+        float rr_throughput = PC.Throughput(rr_outputProcess);
+        
+        //write calculations to the sheet
+        rr_sheet = excelWrite.writeProcessesInfo(workbook, rr_sheet, rr_averageWaitingTime, rr_averageResponseTime, rr_averageTurnAroundTime
+                                                   ,rr_throughput, rr_cpuUtilization);
+        
+        //-----------------END---------------ROUND ROBIN----------------------------------
+        
+        //----------------START--------------EARLIEST DEADLINE FIRST----------------------------------
+
+        //create earliest deadLine first algorithm object
+        EarliesDeadlineFirst edf = new EarliesDeadlineFirst();
+        //run algorithm and store result in a queue
+        Queue<Process> edf_queue  = edf.runAlgorithm(inputProcesses);
+        //write edf sheet
+        edf_sheet = excelWrite.writeProcessesToSheet(workbook, edf_queue, "Earlies Deadline First", edf_sheet);
+
+        //convert queue to list
+        List<Process> edf_outputProcess = new ArrayList<>(edf_queue);
+
+        //calculate 
+        float edf_averageWaitingTime = PC.averageWaitingTime(edf_outputProcess);
+        float edf_averageResponseTime = PC.averageResponseTime(edf_outputProcess);
+        float edf_averageTurnAroundTime = PC.averageTurnAroundTime(edf_outputProcess);
+        float edf_cpuUtilization = PC.cpuUtilization(edf_outputProcess);
+        float edf_throughput = PC.Throughput(edf_outputProcess);
+        
+        //write calculations to the sheet
+        edf_sheet = excelWrite.writeProcessesInfo(workbook, edf_sheet, edf_averageWaitingTime, edf_averageResponseTime, edf_averageTurnAroundTime
+                                                   ,edf_throughput, edf_cpuUtilization);
+        
+        //-----------------END---------------EARLIEST DEADLINE FIRST----------------------------------
+        
+        //export excel file
+        exportExcelAll(workbook);
+        
+        
+        
     }
 
     private void setCalculations() {
@@ -750,6 +918,46 @@ public class MainFrame extends javax.swing.JFrame {
                 //write output excel file
                 ExcelWrite excelWrite = new ExcelWrite();
                 excelWrite.writeProcesses(outputQueue, currentAlgorithmTitle, filePath);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Unkown Error Occured, Please try again later");
+            }
+        }
+    }
+
+    private void exportExcelAll(HSSFWorkbook workbook) {
+
+        //Create JFileChooser Object
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setApproveButtonText("Save");
+        //set mode to view files and directories
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        //set USER DESKTOP as the opening directory
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
+        int returnValue = fileChooser.showOpenDialog(null); //get returned value
+        //if returned value equals APPROVE_OPTION
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile(); //get selected file
+            String filePath = selectedFile.getAbsolutePath(); //get selected path
+
+            //check if file already exist
+            File xmlFile = new File(filePath + ".xls");
+            if (xmlFile.exists()) {
+                int response = JOptionPane.showConfirmDialog(null, //
+                                                             "File already exists, Do you want to replace it ?", //
+                                                             "Confirm", JOptionPane.YES_NO_OPTION, //
+                                                             JOptionPane.QUESTION_MESSAGE);
+                if (response != JOptionPane.YES_OPTION) {
+                    return;
+                }
+            }
+
+            try {
+                //write to excel file
+                FileOutputStream out = new FileOutputStream(filePath + ".xls");
+                workbook.write(out);
+        
+                workbook.close(); //close workbook
+                out.close(); //close file stream
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Unkown Error Occured, Please try again later");
             }

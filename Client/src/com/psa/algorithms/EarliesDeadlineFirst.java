@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class DeadLine {
+public class EarliesDeadlineFirst {
     //initialize a final static integer that equals the max int in java
     private static final int MAX_INT_VALUE = Integer.MAX_VALUE;
 
